@@ -12,15 +12,40 @@ import {
 } from "@mui/material";
 
 const Page = () => {
+  const [token, settoken] = useState("");
   const [products, setproducts] = useState([]);
+
+  const getAuthorization = async () => {
+    try {
+      const authRes = await axios.post("http://20.244.56.144/test/auth", {
+        companyName: "GoMart",
+        clientID: "6ad96005-6025-4da0-8a34-951e997feb2d",
+        clientSecret: "VyzjclIrkHsQGtIs",
+        ownerName: "manish",
+        ownerEmail: "23ca048.manish@sjec.ac.in",
+        rollNo: "4SO23MC048",
+      });
+      localStorage.setItem(
+        "authorization",
+        `Bearer ${authRes.data.access_token}`
+      );
+      settoken();
+      console.log(authRes.data.access_token);
+      console.log(token);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const fetchProducts = async (company, categories) => {
     try {
+      let token = localStorage.getItem("authorization");
+
       const res = await axios.get(
         `http://20.244.56.144/test/companies/${company}/categories/${categories}/products?top=10&minPrice=1&maxPrice=10000`,
         {
           headers: {
-            authorization:
-              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJNYXBDbGFpbXMiOnsiZXhwIjoxNzIxMjk1MjY5LCJpYXQiOjE3MjEyOTQ5NjksImlzcyI6IkFmZm9yZG1lZCIsImp0aSI6IjZhZDk2MDA1LTYwMjUtNGRhMC04YTM0LTk1MWU5OTdmZWIyZCIsInN1YiI6IjIzY2EwNDgubWFuaXNoQHNqZWMuYWMuaW4ifSwiY29tcGFueU5hbWUiOiJHb01hcnQiLCJjbGllbnRJRCI6IjZhZDk2MDA1LTYwMjUtNGRhMC04YTM0LTk1MWU5OTdmZWIyZCIsImNsaWVudFNlY3JldCI6IlZ5empjbElya0hzUUd0SXMiLCJvd25lck5hbWUiOiJtYW5pc2giLCJvd25lckVtYWlsIjoiMjNjYTA0OC5tYW5pc2hAc2plYy5hYy5pbiIsInJvbGxObyI6IjRTTzIzTUMwNDgifQ.WCZcdicQqCCRWUGpsJAqIn18KrpNGgmbUv6cfcidrHE",
+            authorization: `${token}`,
           },
         }
       );
@@ -41,18 +66,11 @@ const Page = () => {
         >
           Fetch Data
         </Button>
-        <Button
-          sx={{ margin: "20px" }}
-          variant="contained"
-          onClick={() => fetchProducts("AMZ", "Laptop")}
-          color="secondary"
-        >
-          Fetch Data
-        </Button>
+
         <Grid container spacing={4} columns={{ xs: 4, sm: 8, md: 12 }}>
           {products.length > 0 ? (
             products.map((product) => (
-              <Grid key={product} item xs={4} sm={4} md={4}>
+              <Grid key={product.rating} item xs={4} sm={4} md={4}>
                 <Card sx={{ maxWidth: 345 }}>
                   <CardContent>
                     <Typography gutterBottom variant="h5" component="div">
@@ -89,6 +107,7 @@ const Page = () => {
                 sx={{ margin: "20px" }}
                 variant="contained"
                 color="secondary"
+                onClick={getAuthorization}
               >
                 Authorization
               </Button>
