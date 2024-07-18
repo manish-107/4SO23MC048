@@ -18,6 +18,7 @@ const Page = () => {
     fetchProducts("AMZ", "Laptop");
   }, [token]);
 
+  // getAuthorization if token expires
   const getAuthorization = async () => {
     try {
       const authRes = await axios.post("http://20.244.56.144/test/auth", {
@@ -40,6 +41,7 @@ const Page = () => {
     }
   };
 
+  // fetch products
   const fetchProducts = async (company, categories) => {
     try {
       let token = localStorage.getItem("authorization");
@@ -61,6 +63,13 @@ const Page = () => {
   return (
     <div>
       <Container maxWidth="lg">
+        <TextField
+          id="outlined-select-currency"
+          select
+          label="Select"
+          defaultValue="EUR"
+          helperText="Please select your currency"
+        ></TextField>
         <Button
           sx={{ margin: "20px" }}
           variant="contained"

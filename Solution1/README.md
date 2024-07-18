@@ -1,5 +1,6 @@
-# Solution 1
+# Solution 2
 
+#Display N products (Frontend)
 {
 "companyName": "GoMart",
 "clientID": "6ad96005-6025-4da0-8a34-951e997feb2d",
