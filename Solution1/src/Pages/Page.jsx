@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Container from "@mui/material/Container";
 import axios from "axios";
+
 import {
   Card,
   CardActions,
@@ -63,13 +64,6 @@ const Page = () => {
   return (
     <div>
       <Container maxWidth="lg">
-        <TextField
-          id="outlined-select-currency"
-          select
-          label="Select"
-          defaultValue="EUR"
-          helperText="Please select your currency"
-        ></TextField>
         <Button
           sx={{ margin: "20px" }}
           variant="contained"
