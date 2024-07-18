@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Container from "@mui/material/Container";
 import axios from "axios";
 import {
@@ -7,13 +7,16 @@ import {
   Grid,
   CardContent,
   Typography,
-  CardMedia,
+  Rating,
   Button,
 } from "@mui/material";
 
 const Page = () => {
   const [token, settoken] = useState("");
   const [products, setproducts] = useState([]);
+  useEffect(() => {
+    fetchProducts("AMZ", "Laptop");
+  }, [token]);
 
   const getAuthorization = async () => {
     try {
@@ -79,13 +82,22 @@ const Page = () => {
                     <Typography variant="body2" color="text.secondary">
                       Price :{product.price}
                     </Typography>
+                    <Typography
+                      variant="body2"
+                      sx={{ paddingTop: "5px" }}
+                      color="text.secondary"
+                    >
+                      discount : {product.discount}
+                    </Typography>
                   </CardContent>
                   <CardActions>
                     <Typography variant="body2" color="text.secondary">
-                      Rating : {product.rating}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                      discount : {product.discount}
+                      Rating :
+                      <Rating
+                        name="read-only"
+                        value={product.rating}
+                        readOnly
+                      />
                     </Typography>
                   </CardActions>
                 </Card>
